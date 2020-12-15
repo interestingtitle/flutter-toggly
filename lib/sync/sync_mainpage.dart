@@ -176,7 +176,26 @@ class _AfterSplashState extends State<flutterdownloader> {
     super.initState();
     _listofFiles();
   }
+  Future <void> getServerFileJSONData() async
+  {
+    if(serverIP!=null ) {
+      try {
+        var conn = await http.get(
+            Uri.parse("http://" + serverIP + ":" + serverPORT + "/est_conn"));
+        var res = await http.get(
+            Uri.parse("http://" + serverIP + ":" + serverPORT + "/get_value"),
+            headers: {"Accept": "application/json"});
+        var resBody = json.decode(res.body);
+        serverFileData = resBody["filedata"] as List;
+        print("Getting file list data from server : Done.");
+        print("Server Folder File Count:"+serverFileData.length.toString());
+      }
+      catch(e){
+        print("Error: Cannot connect to server.");
+      }
+    }
 
+  }
   void _listofFiles() async {
     directory = (await getApplicationDocumentsDirectory()).path;
     setState(() {
@@ -212,8 +231,8 @@ class _AfterSplashState extends State<flutterdownloader> {
   }
   Future<void> exe2() async{
 
-    //await getServerFileJSONData();
-    //fileSync();
+    await getServerFileJSONData();
+    fileSync();
     await compareFiles();
     //print("File Count:"+serverJSONData.length.toString());
     setState(() {
@@ -226,7 +245,7 @@ class _AfterSplashState extends State<flutterdownloader> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('flutterdownloader'),
+        title: Text('Files'),
       ),
       body: Column(
         children: <Widget>[
@@ -247,6 +266,7 @@ class _AfterSplashState extends State<flutterdownloader> {
                     //establishConnection();
                     setState(() {
                       //requestDownload("abc.png");
+                      _listofFiles();
                       dummyDownload();
                       _listofFiles();
 
@@ -300,9 +320,6 @@ class _AfterSplashState extends State<flutterdownloader> {
               itemCount: filesToShow.length,
 
               itemBuilder: (context,index){
-
-
-
                 return GestureDetector(
                   onTap: (){
                     setState(() {
