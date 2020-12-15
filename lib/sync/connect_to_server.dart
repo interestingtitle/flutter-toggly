@@ -22,7 +22,10 @@ class ConnectToServer extends StatefulWidget {
 class _ConnectToServerState extends State<ConnectToServer> {
 
   String IPAddress= connectedIP;
+  void initState(){
+    super.initState();
 
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -72,7 +75,6 @@ class _ConnectToServerState extends State<ConnectToServer> {
               onChanged: (val){
                 setState(() {
                   IPAddress = val;
-                  establishConnection();
                 });
               },
               decoration: InputDecoration(
@@ -95,7 +97,7 @@ class _ConnectToServerState extends State<ConnectToServer> {
               ),
             ),
             onPressed: () async{
-
+              await establishConnection();
               //dummyDownload();
               //String localPath = io.Directory("/storage/emulated/0/Android/data/com.interestingtitle.toggly/files").path;
               //print(localPath);

@@ -54,6 +54,7 @@ class _MyAppState extends State<MyApp> {
       child: Text("Tekrar Dene"),
       onPressed:  () {
         connectivityDataGetter();
+        establishConnection();
       },
     );
     Widget quitApp = FlatButton(
@@ -111,7 +112,6 @@ class AfterSplash extends StatelessWidget {
       ),
       body: new Center(
         child: MaterialApp(
-
           home: AppRouter(),
         ),
 

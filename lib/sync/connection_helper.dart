@@ -12,7 +12,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 
 var fileLocs = new List<String>();
 var files= new List<String>();
-String serverIP="192.168.2.128";
+String serverIP;
 String serverPORT="8000";
 String name;
 String appDirectory;
@@ -22,14 +22,12 @@ String setIPAdd;
 //String tempIP;
 
 List file = new List();
-var filo = new File("storage/emulated/0/Android/data/com.interestingtitle.toggly/files/156561.png");
-double length = filo.lengthSync().toDouble();
-String size = length.toString();
 List <String> fileData=new List<String>();
 List serverFileData=new List();
 List appFileData=new List();
 List<String> requestList= new List<String>();
 List filesToShow=new List();
+
 String iconName;
 String test;
 String tempIP="";
@@ -119,8 +117,7 @@ Future <void> establishConnection() async {
 
       /*print(
           '${addr.address} ${addr.host} ${addr.isLoopback} ${addr
-              .rawAddress} ${addr.type.name}');
-    */
+              .rawAddress} ${addr.type.name}');*/
     }
 
   }
@@ -132,7 +129,7 @@ Future <void> establishConnection() async {
   final stream2 = NetworkAnalyzer.discover2(subnet, port);
   print("Connected by: "+ip);
   var _IPSplitList=ip.split(".");
-  print(_IPSplitList);
+  //print(_IPSplitList);
   setIPAdd=_IPSplitList[0]+'.'+_IPSplitList[1]+'.'+_IPSplitList[2]+".";
   print("Created template: "+setIPAdd);
   int found = 0;
