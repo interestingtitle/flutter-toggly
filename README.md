@@ -10,7 +10,7 @@ Technologies we use:
   
   -Python (Flask)
   
-Technologies we are currently working and soon gonna be added to our project:
+Technologies we are currently working on and soon gonna be added to our project:
 
   -Electron
   
