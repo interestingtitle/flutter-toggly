@@ -1,15 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toggly/services/connectivity.dart';
 import 'package:flutter_toggly/services/router.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:splashscreen/splashscreen.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
-
+import 'dart:io' as io;
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  var status = await Permission.storage.status;
 
+  if (!status.isGranted) {
+    await Permission.storage.request();
+  }
+  var appDirectory = (await getApplicationDocumentsDirectory()).path;
   runApp(new MaterialApp(
     home: new MyApp(),
   ));
+  await FlutterDownloader.initialize(
+      debug: true // optional: set false to disable printing logs to console
+  );
+  String localPath = io.Directory("/storage/emulated/0/Android/data/com.interestingtitle.toggly/files").path;
+  print(localPath);
+  final savedDir = Directory(localPath);
+  bool hasExisted = await savedDir.exists();
+  if (!hasExisted) {
+    savedDir.create();
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -86,7 +104,7 @@ class AfterSplash extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-          title: new Text("Welcome"),
+          title: new Text("toggly."),
           automaticallyImplyLeading: false
       ),
       body: new Center(

@@ -1,4 +1,4 @@
-package com.interestingtitle.flutter_toggly;
+package com.interestingtitle.toggly;
 
 import io.flutter.embedding.android.FlutterActivity;
 
