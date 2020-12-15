@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_toggly/sync/sync_mainpage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_toggly/sync/connection_helper.dart';
 import 'dart:io' as io;
@@ -20,13 +21,14 @@ class ConnectToServer extends StatefulWidget {
 
 class _ConnectToServerState extends State<ConnectToServer> {
 
-  String IPAddress= "192.168.2.128";
+  String IPAddress= connectedIP;
 
   @override
   Widget build(BuildContext context) {
 
 
     return Container(
+
       color: Colors.blue[50],
       child:ListView(
         padding: new EdgeInsets.all(1.0),
@@ -60,7 +62,7 @@ class _ConnectToServerState extends State<ConnectToServer> {
               onPressed:(){
 
               },
-              child: Text("Trying to establish connection. \n Please set desktop application ready."),
+              child: Text("Trying to establish connection... \nPlease set the desktop application ready."),
             ),
 
           ),
@@ -92,10 +94,18 @@ class _ConnectToServerState extends State<ConnectToServer> {
               ),
             ),
             onPressed: () async{
-              //establishConnection();
+
               //dummyDownload();
-              String localPath = io.Directory("/storage/emulated/0/Android/data/com.interestingtitle.toggly/files").path;
-              print(localPath);
+              //String localPath = io.Directory("/storage/emulated/0/Android/data/com.interestingtitle.toggly/files").path;
+              //print(localPath);
+              if (connectedIP!=null)
+                {
+                  print("Seems like you connected.");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SyncMain()),
+                  );
+                }
               //requestDownload("abc.png");
               //print("->"+IPAddress);
               }

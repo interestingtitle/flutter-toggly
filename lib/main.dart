@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toggly/services/connectivity.dart';
 import 'package:flutter_toggly/services/router.dart';
+import 'package:flutter_toggly/sync/connection_helper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -28,6 +29,7 @@ Future<void> main() async{
   if (!hasExisted) {
     savedDir.create();
   }
+  await establishConnection();
 }
 
 class MyApp extends StatefulWidget {
@@ -109,6 +111,7 @@ class AfterSplash extends StatelessWidget {
       ),
       body: new Center(
         child: MaterialApp(
+
           home: AppRouter(),
         ),
 

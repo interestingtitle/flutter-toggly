@@ -19,7 +19,7 @@ String appDirectory;
 String fileDirection ;
 String directory;
 String setIPAdd;
-String tempIP;
+//String tempIP;
 
 List file = new List();
 var filo = new File("storage/emulated/0/Android/data/com.interestingtitle.toggly/files/156561.png");
@@ -32,6 +32,8 @@ List<String> requestList= new List<String>();
 List filesToShow=new List();
 String iconName;
 String test;
+String tempIP="";
+String connectedIP;
 
 void requestDownload(String downloadFile) async {
   //establishConnection();
@@ -100,61 +102,52 @@ Future <void> getServerFileJSONData() async
   }
 
 }
-Future <void> discoverIpAddress() async {
-  print('Checking for server');
-  int port= int.parse(serverPORT);
-  var stream2 =  NetworkAnalyzer.discover2(
-    setIPAdd,
-    port,
-    timeout: Duration(milliseconds: 5000),
-  );
 
-  int found = 0;
-  stream2.listen((NetworkAddress addr) {
-    print('${addr.ip}:$port');
-    if (addr.exists) {
-      found++;
-      print('Found Server IP: ${addr.ip}:$port');
-      serverIP=addr.ip.toString();
-      serverPORT=port.toString();
-      return;
-    }
-  });
-}
 
-Future <void> createTemplateForIP() async{
-  final String ip =tempIP;
-  final String subnet = ip.substring(0, ip.lastIndexOf('.'));
-  final int port = 8000;
-  final stream = NetworkAnalyzer.discover2(subnet, port);
-  stream.listen((NetworkAddress addr) {
-    if (addr.exists) {
-      print("Connected by: "+ip);
-      var _IPSplitList=ip.split(".");
-      print(_IPSplitList);
-      setIPAdd=_IPSplitList[0]+'.'+_IPSplitList[1]+'.'+_IPSplitList[2];
-      print("Created template: "+setIPAdd);
-      discoverIpAddress();
-    }
 
-  });
 
-}
 Future <void> establishConnection() async {
   serverPORT="8000";
   print("Trying to connect server.");
   for (var interface in await NetworkInterface.list()) {
     print('== Interface: ${interface.name} ==');
     for (var addr in interface.addresses) {
-      tempIP=addr.address;
-      print(
+      if(interface.name=="wlan0")
+        {
+          tempIP = addr.address;
+        }
+
+      /*print(
           '${addr.address} ${addr.host} ${addr.isLoopback} ${addr
               .rawAddress} ${addr.type.name}');
-      createTemplateForIP();
-      return;
+    */
     }
 
   }
+  print(tempIP);
+  print("Creating template for connecting...");
+  final String ip = tempIP;
+  final String subnet = ip.substring(0, ip.lastIndexOf('.'));
+  final int port = 8000;
+  final stream2 = NetworkAnalyzer.discover2(subnet, port);
+  print("Connected by: "+ip);
+  var _IPSplitList=ip.split(".");
+  print(_IPSplitList);
+  setIPAdd=_IPSplitList[0]+'.'+_IPSplitList[1]+'.'+_IPSplitList[2]+".";
+  print("Created template: "+setIPAdd);
+  int found = 0;
+  stream2.listen((NetworkAddress addr) {
+    //print('${addr.ip}:$port');
+    if (addr.exists) {
+      found++;
+      print('Found Server IP: ${addr.ip}:$port');
+      connectedIP=addr.ip.toString();
+      serverIP=addr.ip.toString();
+      serverPORT=port.toString();
+      return;
+    }
+  });
+
 }
 
 
