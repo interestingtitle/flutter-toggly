@@ -75,6 +75,7 @@ class _ConnectToServerState extends State<ConnectToServer> {
               onChanged: (val){
                 setState(() {
                   IPAddress = val;
+                  connectedIP=val;
                 });
               },
               decoration: InputDecoration(

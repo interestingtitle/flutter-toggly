@@ -125,8 +125,8 @@ class _AfterSplashState extends State<flutterdownloader> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text("Wifi"),
-          content: Text("Wifi not detected. Please activate it."),
+          title: Text("Wi-fi"),
+          content: Text("Wi-fi not detected. Please activate it."),
         )
     );
   }
