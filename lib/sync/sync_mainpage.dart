@@ -19,23 +19,8 @@ import 'package:ping_discover_network/ping_discover_network.dart';
 import 'package:wifi/wifi.dart';
 import 'package:splashscreen/splashscreen.dart';
 
+import 'package:flutter_toggly/sync/connection_helper.dart';
 
-var fileLocs = new List<String>();
-var files= new List<String>();
-String serverIP="192.168.2.128";
-String serverPORT="8000";
-int Counter = -1;
-String name;
-String appDirectory;
-String fileDirection ;
-String directory;
-String setIPAdd;
-String tempIP;
-List file = new List();
-var filo = new File("storage/emulated/0/Android/data/bariscan.flutterdownloader/files/156561.png");
-double length = filo.lengthSync().toDouble();
-String size = length.toString();
-List <String> fileData=new List<String>();
 List serverFileData=new List();
 List appFileData=new List();
 List<String> requestList= new List<String>();
@@ -44,11 +29,10 @@ String iconName;
 
 void fileSync() {
   appFileData = io.Directory("/storage/emulated/0/Android/data/com.interestingtitle.toggly/files").listSync();
-  serverFileData=serverFileData;
   //print(appFileData);
   //print(serverFileData);
   filesToShow.clear();
-  filesToShow.addAll(serverFileData);
+  //filesToShow.addAll(serverFileData);
   filesToShow.addAll(appFileData);
   //print(filesToShow);
 
@@ -149,7 +133,6 @@ class _AfterSplashState extends State<flutterdownloader> {
     filesToShow.add(test.toString()+'.png');
 
   }
-  @override
   void dummyDownload() async {
 
     var rnd = new Random();
@@ -217,7 +200,7 @@ class _AfterSplashState extends State<flutterdownloader> {
     //requestList.clear();
 
     serverFileData.forEach((text) {
-      //print(text['filename']);
+      print(text['filename']);
       print("Requested Filename: "+text['filename']);
       requestList.add(text['filename']);
       requestDownload(text['filename']);
@@ -226,10 +209,7 @@ class _AfterSplashState extends State<flutterdownloader> {
     print(requestList);
   }
 
-  Future<void> executeOrder() async{
-
-  }
-  Future<void> exe2() async{
+  Future<void> main_sync_func() async{
 
     await getServerFileJSONData();
     fileSync();
@@ -263,9 +243,8 @@ class _AfterSplashState extends State<flutterdownloader> {
                   child: Icon(Icons.file_download),
 
                   onPressed: (){
-                    //establishConnection();
                     setState(() {
-                      //requestDownload("abc.png");
+
                       _listofFiles();
                       dummyDownload();
                       _listofFiles();
@@ -282,7 +261,7 @@ class _AfterSplashState extends State<flutterdownloader> {
                   color: Colors.blue,
                   child: Icon(Icons.folder_open),
                   onPressed: (){
-                    exe2();
+                    main_sync_func();
                     setState(() {
                       _checkWifi();
                       _listofFiles();
