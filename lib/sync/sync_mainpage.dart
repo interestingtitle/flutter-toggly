@@ -194,7 +194,7 @@ class _AfterSplashState extends State<flutterdownloader> {
     });
   }
 
-  Future <void> compareFiles() async
+  Future <void> compare_Download_Files() async
   {
     //jsonFileData.clear();
     //requestList.clear();
@@ -213,7 +213,7 @@ class _AfterSplashState extends State<flutterdownloader> {
 
     await getServerFileJSONData();
     fileSync();
-    await compareFiles();
+    await compare_Download_Files();
     //print("File Count:"+serverJSONData.length.toString());
     setState(() {
       _listofFiles();
